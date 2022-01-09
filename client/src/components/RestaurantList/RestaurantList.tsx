@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./RestaurantList.css";
+import RestaurantFinder from "../../apis/RestaurantFinder";
+import { RestaurantsContext } from "../../context/RestaurantsContext";
 
 export const RestaurantList = (): JSX.Element => {
+  const { restaurants, setRestaurants } = useContext(RestaurantsContext);
+
+  const getRestaurants = async () => {
+    try {
+      const response = await RestaurantFinder.get("/");
+      setRestaurants(response.data.data.restaurants);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
+
   return (
     <div>
       <table className="styled-table">
@@ -16,7 +33,23 @@ export const RestaurantList = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          {restaurants.map((restaurant) => {
+            return (
+              <tr key={restaurant.id}>
+                <td>{restaurant.name}</td>
+                <td>{restaurant.location}</td>
+                <td>{restaurant.price_range}</td>
+                <td>reviews</td>
+                <td>
+                  <button>Edit</button>
+                </td>
+                <td>
+                  <button>Delete</button>
+                </td>
+              </tr>
+            );
+          })}
+          {/* <tr>
             <td>McDonalds</td>
             <td>London</td>
             <td>$$</td>
@@ -39,7 +72,7 @@ export const RestaurantList = (): JSX.Element => {
             <td>
               <button>Delete</button>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>

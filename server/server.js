@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+//enables domains to communicate
 const cors = require("cors");
 const db = require("./db");
 const app = express();
