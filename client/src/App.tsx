@@ -11,9 +11,12 @@ const App = (): JSX.Element => {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={Home} />
-          <Route path="/restaurants/:id" element={RestaurantDetails} />
-          <Route path="/restaurants/:id/update" element={UpdateRestaurant} />
+          <Route path="/" element={<Home />} />
+          <Route path="/restaurants/:id" element={<RestaurantDetails />} />
+          <Route
+            path="/restaurants/:id/update"
+            element={<UpdateRestaurant />}
+          />
         </Routes>
       </Router>
     </div>
