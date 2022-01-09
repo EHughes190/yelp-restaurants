@@ -14,7 +14,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
     res.status(200).json({
       status: "success",
       results: results.rows.length,
-      fdata: {
+      data: {
         restaurants: results.rows,
       },
     });
@@ -62,6 +62,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
   }
 });
 
+//edit a restaurant
 app.put("/api/v1/restaurants/:id", async (req, res) => {
   try {
     const results = await db.query(
