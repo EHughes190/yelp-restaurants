@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const db = require("./db");
 const app = express();
 
 //middleware
+app.use(cors());
 app.use(express.json());
 
 //get all restaurants
