@@ -15,6 +15,24 @@ export const RestaurantList = (): JSX.Element => {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await RestaurantFinder.delete(`/${id}`);
+      setRestaurants(restaurants.filter((restaurant) => restaurant.id != id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const convertPriceToSymbol = (price: number): string => {
+    let newPrice = "";
+    for (let i = 1; i <= price; i++) {
+      newPrice = newPrice + "$";
+    }
+
+    return newPrice;
+  };
+
   useEffect(() => {
     getRestaurants();
   }, []);
@@ -38,13 +56,19 @@ export const RestaurantList = (): JSX.Element => {
               <tr key={restaurant.id}>
                 <td>{restaurant.name}</td>
                 <td>{restaurant.location}</td>
-                <td>{restaurant.price_range}</td>
+                <td>{convertPriceToSymbol(restaurant.price_range)}</td>
                 <td>reviews</td>
                 <td>
                   <button>Edit</button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button
+                    onClick={() => {
+                      handleDelete(restaurant.id);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );

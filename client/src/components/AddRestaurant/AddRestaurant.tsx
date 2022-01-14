@@ -10,7 +10,7 @@ export const AddRestaurant = (): JSX.Element => {
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("Price Range");
 
-  const handleSubmit = async (e: any): Promise<void> => {
+  const handleSubmit = async (e: Event): Promise<void> => {
     e.preventDefault();
 
     try {
@@ -27,7 +27,7 @@ export const AddRestaurant = (): JSX.Element => {
   };
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={() => handleSubmit} className="form">
         <div>
           <input
             type="text"
