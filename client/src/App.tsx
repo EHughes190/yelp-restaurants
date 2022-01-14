@@ -10,7 +10,7 @@ import { RestaurantsContextProvider } from "./context/RestaurantsContext";
 const App = (): JSX.Element => {
   return (
     <RestaurantsContextProvider>
-      <div>
+      <div className="App">
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
