@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./RestaurantList.css";
 import RestaurantFinder from "../../apis/RestaurantFinder";
 import { RestaurantsContext } from "../../context/RestaurantsContext";
+import { Link } from "react-router-dom";
 
 export const RestaurantList = (): JSX.Element => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
@@ -59,7 +60,9 @@ export const RestaurantList = (): JSX.Element => {
                 <td>{convertPriceToSymbol(restaurant.price_range)}</td>
                 <td>reviews</td>
                 <td>
-                  <button>Edit</button>
+                  <Link to={`/restaurants/${restaurant.id}/update`}>
+                    <button>Edit</button>
+                  </Link>
                 </td>
                 <td>
                   <button
@@ -73,30 +76,6 @@ export const RestaurantList = (): JSX.Element => {
               </tr>
             );
           })}
-          {/* <tr>
-            <td>McDonalds</td>
-            <td>London</td>
-            <td>$$</td>
-            <td>5 star</td>
-            <td>
-              <button>Edit</button>
-            </td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Wendys</td>
-            <td>London</td>
-            <td>$$</td>
-            <td>3 star</td>
-            <td>
-              <button>Edit</button>
-            </td>
-            <td>
-              <button>Delete</button>
-            </td>
-          </tr> */}
         </tbody>
       </table>
     </div>

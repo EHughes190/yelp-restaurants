@@ -1,35 +1,48 @@
-import React, { FormEvent, useContext, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import RestaurantFinder from "../../apis/RestaurantFinder";
-import { RestaurantsContext } from "../../context/RestaurantsContext";
-import "./AddRestaurant.css";
 
-export const AddRestaurant = (): JSX.Element => {
-  const { addRestaurant } = useContext(RestaurantsContext);
-
+export const UpdateRestaurantForm = (): JSX.Element => {
+  const { id } = useParams();
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState("Price Range");
+  const [priceRange, setPriceRange] = useState("");
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
-      const response = await RestaurantFinder.post("/", {
+      const response = await RestaurantFinder.put(`/${id}`, {
         name: name,
         location: location,
         price_range: priceRange,
       });
-      addRestaurant(response.data.data.restaurant);
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const fetchRestaurantData = async () => {
+      const response = await RestaurantFinder.get(`/${id}`);
+
+      setName(response.data.data.restaurant.name);
+      setLocation(response.data.data.restaurant.location);
+      setPriceRange(response.data.data.restaurant.price_range);
+    };
+
+    fetchRestaurantData();
+  }, []);
+
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit} className="form">
+    <div>
+      <form className="form" onSubmit={handleSubmit}>
         <div>
           <input
+            defaultValue={name}
             type="text"
             placeholder="Name"
             onChange={(e) => {
@@ -39,6 +52,7 @@ export const AddRestaurant = (): JSX.Element => {
         </div>
         <div>
           <input
+            defaultValue={location}
             type="text"
             placeholder="Location"
             onChange={(e) => {
@@ -61,7 +75,7 @@ export const AddRestaurant = (): JSX.Element => {
             <option value="5">$$$$$</option>
           </select>
         </div>
-        <button type="submit">Add</button>
+        <button type="submit">Update</button>
       </form>
     </div>
   );
