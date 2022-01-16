@@ -5,6 +5,9 @@ type Restaurant = {
   name: string;
   location: string;
   price_range: number;
+  restaurant_id: string;
+  count: string;
+  average_rating: string;
 };
 
 type Review = {

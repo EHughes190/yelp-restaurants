@@ -12,7 +12,10 @@ app.use(express.json());
 //get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
   try {
-    const results = await db.query("select * from restaurants");
+    //gets restaurants data, joined with reviews count and average rating per each restaurant in db.
+    const results = await db.query(
+      "select * from restaurants left join (select restaurant_id, COUNT(*), trunc(AVG(rating), 1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id"
+    );
 
     res.status(200).json({
       status: "success",
@@ -33,7 +36,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     //req.params.id
     //This setup, rather than string interpolation prevents SQL injection
     const restaurant = await db.query(
-      `select * from restaurants where id= $1`,
+      `select * from restaurants left join (select restaurant_id, COUNT(*), trunc(AVG(rating), 1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id where id=$1`,
       [req.params.id]
     );
 

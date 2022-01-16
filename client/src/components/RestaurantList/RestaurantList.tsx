@@ -46,7 +46,7 @@ export const RestaurantList = (): JSX.Element => {
             <th>Restaurant</th>
             <th>Location</th>
             <th>Price Range</th>
-            <th>Ratings</th>
+            <th>Rating</th>
             <th>Edit</th>
             <th>Delete</th>
             <th>Details</th>
@@ -59,7 +59,10 @@ export const RestaurantList = (): JSX.Element => {
                 <td>{restaurant.name}</td>
                 <td>{restaurant.location}</td>
                 <td>{convertPriceToSymbol(restaurant.price_range)}</td>
-                <td>reviews</td>
+                <td>
+                  {restaurant.average_rating}{" "}
+                  {restaurant.count && `(${restaurant.count})`}
+                </td>
                 <td>
                   <Link to={`/restaurants/${restaurant.id}/update`}>
                     <button>Edit</button>

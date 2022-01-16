@@ -21,7 +21,7 @@ export const RestaurantDetails = (): JSX.Element => {
     };
 
     fetchRestaurantData();
-  }, [selectedRestaurant?.reviews]);
+  }, []);
 
   return (
     <div
@@ -33,6 +33,11 @@ export const RestaurantDetails = (): JSX.Element => {
       }}
     >
       <h1>{selectedRestaurant?.restaurant.name}</h1>
+      <p>
+        {selectedRestaurant?.restaurant.average_rating}{" "}
+        {selectedRestaurant?.restaurant.count &&
+          `(${selectedRestaurant.restaurant.count})`}
+      </p>
       <div
         style={{
           display: "flex",
