@@ -32,13 +32,21 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     //$1 notation indicates variable. Number represents index of array argument
     //req.params.id
     //This setup, rather than string interpolation prevents SQL injection
-    const results = await db.query(`select * from restaurants where id= $1`, [
-      req.params.id,
-    ]);
+    const restaurant = await db.query(
+      `select * from restaurants where id= $1`,
+      [req.params.id]
+    );
+
+    //get reviews for specified restaurant
+    const reviews = await db.query(
+      `select * from reviews where restaurant_id=$1`,
+      [req.params.id]
+    );
     res.status(200).json({
       status: "success",
       data: {
-        restaurant: results.rows[0],
+        restaurant: restaurant.rows[0],
+        reviews: reviews.rows,
       },
     });
   } catch (error) {
@@ -93,6 +101,25 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
 
     res.status(204).json({
       status: "success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Create a new review
+app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
+  try {
+    const result = await db.query(
+      "INSERT INTO reviews (restaurant_id, name, rating, review) values($1, $2, $3, $4) returning *",
+      [req.params.id, req.body.name, req.body.rating, req.body.review]
+    );
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        review: result.rows[0],
+      },
     });
   } catch (error) {
     console.log(error);

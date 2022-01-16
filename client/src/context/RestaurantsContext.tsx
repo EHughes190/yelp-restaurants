@@ -7,16 +7,35 @@ type Restaurant = {
   price_range: number;
 };
 
+type Review = {
+  id: string;
+  name: string;
+  rating: number;
+  restaurant_id: string;
+  review: string;
+};
+
+type RestaurantData = {
+  restaurant: Restaurant;
+  reviews: Review[];
+};
+
 type RestaurantContext = {
   restaurants: Restaurant[];
   setRestaurants: React.Dispatch<React.SetStateAction<Restaurant[]>>;
   addRestaurant: (restaurant: Restaurant) => void;
+  selectedRestaurant: RestaurantData | undefined;
+  setSelectedRestaurant: React.Dispatch<
+    React.SetStateAction<RestaurantData | undefined>
+  >;
 };
 
 const defaultValue = {
   restaurants: [],
   setRestaurants: () => {},
   addRestaurant: () => {},
+  selectedRestaurant: undefined,
+  setSelectedRestaurant: () => {},
 };
 
 export const RestaurantsContext =
@@ -24,6 +43,8 @@ export const RestaurantsContext =
 
 export const RestaurantsContextProvider: React.FC = ({ children }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<RestaurantData>();
 
   const addRestaurant = (restaurant: Restaurant) => {
     setRestaurants([...restaurants, restaurant]);
@@ -31,7 +52,13 @@ export const RestaurantsContextProvider: React.FC = ({ children }) => {
 
   return (
     <RestaurantsContext.Provider
-      value={{ restaurants, setRestaurants, addRestaurant }}
+      value={{
+        restaurants,
+        setRestaurants,
+        addRestaurant,
+        selectedRestaurant,
+        setSelectedRestaurant,
+      }}
     >
       {children}
     </RestaurantsContext.Provider>

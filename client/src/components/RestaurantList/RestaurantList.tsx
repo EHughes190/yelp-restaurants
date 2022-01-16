@@ -49,6 +49,7 @@ export const RestaurantList = (): JSX.Element => {
             <th>Ratings</th>
             <th>Edit</th>
             <th>Delete</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -72,6 +73,11 @@ export const RestaurantList = (): JSX.Element => {
                   >
                     Delete
                   </button>
+                </td>
+                <td>
+                  <Link to={`/restaurants/${restaurant.id}`}>
+                    <button>Details</button>
+                  </Link>
                 </td>
               </tr>
             );
