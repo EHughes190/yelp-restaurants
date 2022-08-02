@@ -21,7 +21,7 @@ export const RestaurantDetails = (): JSX.Element => {
     };
 
     fetchRestaurantData();
-  }, []);
+  }, [selectedRestaurant?.reviews]);
 
   return (
     <div

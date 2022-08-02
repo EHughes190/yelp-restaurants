@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 require("dotenv").config();
-// const express = require("express");
 //enables domains to communicate
 const cors = require("cors");
 const db = require("./db");
